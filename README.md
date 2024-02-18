@@ -144,7 +144,26 @@ These challenges require a combination of experience, intuition, and robust soft
 
 ### Further Research
 
+In this section, I will highlight areas of further research conducted, picking out the pertinent points that will affect the project development.
+
 #### Blogs
+
+Blogs appeared as a great place to start. They provide more information as to what teams focus on when making decisions as well as the currently available technology for decision making.
+
+I will highlight certain sections of blogs along with the information taken forward.
+
+- [Catapult "F1 STRATEGY: HOW FORMULA 1 TEAMS OPTIMIZE ANALYSIS"](https://www.catapult.com/blog/formula-1-race-strategy-analysis)
+    - During a race weekend, teams closely monitor **tyre wear**, **temperature**, and **performance** to make informed decisions about *when to change tyres* and *which type of tyres to use*.
+    - By considering factors like **track temperature**, **tyre wear rates**, and **lap times**, they can make informed decisions about when to pit and which tyres to use.
+
+The information extracted from the above blog assisted in understanding what factors assist with decision making when deciding when to change tyres, and what type of tyre to use. This will be taken forward to prvide a form of predictive analysis for tyre management.
+
+- [Secrets of the Pit Wall | The Art of Race Strategy in F1](https://www.linkedin.com/pulse/secrets-pit-wall-art-race-strategy-f1-anish-garg/)
+    - F1 teams have access to extensive **weather forecasting tools**, which are constantly monitored during the race. If rain clouds loom on the horizon, the strategists must decide *when and if to switch to wet tires*.
+    - An undercut is where a driver pits before the car(s) in front to try and gain a position. This occurs when a team believes fresh rubber will yield more pace and create a net gain on the track by the time the other car(s) have pitted.
+    - The overcut is essentially the opposite of the undercut, in that it involves letting the leading car pit first, and then taking advantage of the clean air in front of you to build up a gap so that when you do eventually pit, you still come out of the pits ahead of the driver that was originally in front.
+
+The above information will help understand the principles behind undercuts and overcuts, alongside important weather considerations.
 
 #### Podcasts
 
