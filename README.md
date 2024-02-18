@@ -34,3 +34,120 @@ By harnessing the power of cutting-edge technology, TrackTician equips teams wit
 *This project was made in accordance with the [Inversity](https://inversity.co/) challenge running from 09/02/24 - 10/03/24*
 
 ---
+
+## Table of Contents
+
+1. [**Market Research**](#market-research)
+    - [**Inversity ChatBot**](#inversity-chatbot)
+    - [**Further Research**](#further-research)
+        - [**Blogs**](#blogs)
+        - [**Podcasts**](#podcasts)
+        - [**YouTube**](#youtube)
+        - [**Miscellaneous**](#miscellaneous)
+
+---
+
+## Market Research
+
+In this section, I will highlight and explains areas of research conducted prior to starting the development process.
+
+By researching suitable areas first, I will be able to identify pertinent points in which to focus on, and understand completely what it is I am trying to achieve with this project.
+
+### Inversity ChatBot
+
+The [Inversity](https://inversity.co/) Chat Bot, dedicated to this challenge, offered invaluable assistance. With initial project specifications being vague, the Chat Bot provided essential insights into the requirements, setting a solid starting point.
+
+Below I will highlight some of the most effective prompts and responses from the Chat Bot.
+
+**"What forms of data do you look at when making decisions?"**
+
+<details>
+<summary>Reponse</summary><br>
+"We look at a variety of data, including timing data that shows us the sector and lap times of all cars, GPS data for tracking car positions and performance, and simple telemetry data like throttle and brake usage. We also review onboard videos and listen to driver radio communications. All this information helps us understand the car's performance, the condition of the tyres, and what our competitors are doing, which is crucial for making quick and informed race strategy decisions."
+</details>
+
+<br>
+
+**"What decisions does this data lead to?"**
+
+<details>
+<summary>Reponse</summary><br>
+"The data leads to decisions like when to pit for new tyres, which tyre compound to choose, and how to manage the race pace. We also decide whether to be aggressive or conservative with our strategy, when to react to competitors' moves, and how to handle unexpected events like safety cars or changes in weather. The goal is to optimize our race performance and outsmart the competition, aiming for the best possible finish for our drivers."
+</details>
+
+<br>
+
+**"Can you summarise the types of data that affect each decision in a bullet point style?"**
+
+<details>
+<summary>Reponse</summary><br>
+"Sure, I can summarize it in a more conversational way using bullet points:
+
+- Timing data helps us decide on pit stop timing and to understand our relative race pace.
+- GPS data is useful for fine-tuning car setup and driving lines, as well as anticipating competitors' moves.
+- Telemetry data informs us on tyre wear and whether adjustments to driving style are needed to preserve the car.
+- Onboard videos can be reviewed for driver technique and identifying areas of the track where we can gain or lose time.
+- Driver radio communications give us insight into the driver's comfort with the car and any immediate issues that need addressing.
+
+Each type of data contributes to the overall strategy and the decisions we make throughout the race."
+</details>
+
+<br>
+
+**"Can you summarise the types of data that affect each decision in a bullet point style?"**
+
+<details>
+<summary>Reponse</summary><br>
+"We're always looking to improve our decision-making process. A few things that could help include:
+
+- Enhanced data analysis tools that can quickly sift through large volumes of data and highlight the most critical information.
+- AI-driven predictions that can anticipate race developments, like tyre performance under different conditions.
+- Improved visualization of data to make complex information more understandable at a glance.
+- Software that can summarize and prioritize radio communications from competitors, giving us strategic insights without the cognitive overload.
+
+These advancements would help us make even faster and more accurate decisions during the high-pressure environment of a race."
+</details>
+
+<br>
+
+**"What challenges do you currently face when making decisions during races?"**
+
+<details>
+<summary>Reponse</summary><br>
+"One of the biggest challenges is the sheer volume of data we receive; it can be overwhelming. We need to identify key information quickly to make informed decisions. Another challenge is dealing with conflicting data from different sources, which can create uncertainty. Additionally, we have to be very agile, responding to changing race conditions and competitor strategies in real-time, which requires both speed and accuracy in our decision-making process."
+</details>
+
+<br>
+
+**"Are there any other challenges you haven't mentioned?"**
+
+<details>
+<summary>Reponse</summary><br>
+"Yes, there are a few more challenges:
+
+- Interpreting the reliability and accuracy of the data, especially when the quality can vary, like with GPS signals on certain tracks.
+- Managing communication effectively among the team, ensuring that crucial information is shared without distraction.
+- Adapting to unexpected events, such as accidents or safety cars, which can turn the race on its head and require a rapid reassessment of strategy.
+- Balancing risk versus reward when considering different strategic options, which can have a significant impact on the race outcome.
+
+These challenges require a combination of experience, intuition, and robust software tools to navigate successfully."
+</details>
+
+<br>
+
+**"How effective would a geospatial visualisation be for the team?"**
+
+<details>
+<summary>Reponse</summary><br>
+"A geospatial visualization could be very effective for our team. It would allow us to see the real-time positions of our cars in relation to others on the track, understand spatial relationships and gaps, and make more informed decisions about overtaking, defending, and pit stop timing. If it's intuitive and quick to interpret, it could be a valuable addition to our strategy toolkit."
+</details>
+
+### Further Research
+
+#### Blogs
+
+#### Podcasts
+
+#### YouTube
+
+#### Miscellaneous
