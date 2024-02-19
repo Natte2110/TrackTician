@@ -92,26 +92,31 @@ def add_sessions(session):
 
 
 def add_drivers(session):
-    response = urlopen('https://api.openf1.org/v1/drivers?meeting_key=latest')
-    data = json.loads(response.read().decode('utf-8'))
-    
-    for driver_data in data:
-        existing_driver = session.query(Drivers).filter_by(session_key=driver_data["session_key"]).first()
-        
-        if existing_driver:
-            continue
-        
-        driver = Drivers(
-            driver_number=driver_data["driver_number"],
-            full_name=driver_data["full_name"],
-            headshot_url=driver_data["headshot_url"],
-            name_acronym=driver_data["name_acronym"],
-            session_key=driver_data["session_key"],
-            team_colour=driver_data["team_colour"],
-            team_name=driver_data["team_name"]
-        )
-        session.add(driver)
-        
+    all_sessions = session.query(Sessions).all()
+
+    for session_obj in all_sessions:
+        session_key = session_obj.session_key
+        url = f"https://api.openf1.org/v1/drivers?session_key={session_key}"
+
+        response = urlopen(url)
+        data = json.loads(response.read().decode('utf-8'))
+
+        for driver_data in data:
+            existing_driver = session.query(Drivers).filter_by(session_key=driver_data["session_key"]).first()
+            if existing_driver:
+                continue
+
+            driver = Drivers(
+                driver_number=driver_data["driver_number"],
+                full_name=driver_data["full_name"],
+                headshot_url=driver_data["headshot_url"],
+                name_acronym=driver_data["name_acronym"],
+                session_key=driver_data["session_key"],
+                team_colour=driver_data["team_colour"],
+                team_name=driver_data["team_name"]
+            )
+            session.add(driver)
+
     session.commit()
 
 create_default_user(session)
