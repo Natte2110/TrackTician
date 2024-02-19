@@ -44,7 +44,13 @@ By harnessing the power of cutting-edge technology, TrackTician equips teams wit
         - [**Podcasts**](#podcasts)
         - [**YouTube**](#youtube)
         - [**Miscellaneous**](#miscellaneous)
-
+2. [**UX**](#ux)
+    - [**User Stories**](#user-stories)
+    - [**Design**](#design)
+        - [**Color Scheme**](#color-scheme)
+        - [**Typography**](#typography)
+    - [**Wireframes**](#wireframes)
+    - [**Database Design**](#database-design)
 ---
 
 ## Market Research
@@ -170,3 +176,77 @@ The above information will help understand the principles behind undercuts and o
 #### YouTube
 
 #### Miscellaneous
+
+---
+
+## UX
+
+### User Stories
+
+- As a Formula One team strategist, I want to access real-time telemetry data during a race, so that I can make informed decisions about race strategy.
+
+- As a Formula One team engineer, I want to visualize live data streams of speed, throttle, brake, and other performance metrics, so that I can monitor the car's performance and make adjustments as needed.
+
+- As a Formula One team manager, I want to receive alerts and notifications about critical events during the race, such as tire wear, engine temperature, or potential safety issues, so that I can take immediate action if necessary.
+
+- As a Formula One team analyst, I want to analyze historical race data and performance metrics, so that I can identify patterns and trends that can inform future race strategies.
+
+- As a Formula One team member, I want to collaborate with other team members in real-time, sharing insights and coordinating strategy adjustments during the race.
+
+- As a Formula One team member, I want TrackTician to integrate seamlessly with our existing race management tools and systems, so that we can access all necessary information in one centralized platform.
+
+- As a Formula One team strategist, I want TrackTician to provide customizable dashboards and reports, so that I can focus on the most relevant data and insights for our team's specific needs.
+
+- As a Formula One team member, I want TrackTician to be accessible from any device, including laptops, tablets, and smartphones, so that I can stay connected and informed wherever I am during the race.
+
+### Design
+
+This web application will be designed to have a professional theme in a dashboard stlye that allows users to interact with the information and decide what is on their screens.
+
+#### Color Scheme
+
+The following colour scheme will be used throughout the site, and will aim to provide a professional approach.
+
+| 1 | 2 | 3 | 4 | 5 | 6 |
+| :---: | :---: | :---: | :---: | :---: | :---: |
+| ![#000000](https://via.placeholder.com/15/000000/000000) | ![#282A3A](https://via.placeholder.com/15/282A3A/282A3A) | ![#607274](https://via.placeholder.com/15/607274/607274) | ![#116D6E](https://via.placeholder.com/15/116D6E/116D6E) | ![#171717](https://via.placeholder.com/15/171717/171717) | ![#FFFFFF](https://via.placeholder.com/15/FFFFFF/FFFFFF) |
+| #000000 | #282A3A | #735F32 | #C69749 | #171717 | #FFFFFF |
+
+These will be placed as *:root* variables within the style.css file in order to be used across all necessary elements.
+
+#### Typography
+
+The main font that will be applied to the web application is [Montserrat](https://fonts.google.com/specimen/Montserrat), with a fallback font of **Sans-Serif**.
+
+### Wireframes
+
+- ![Balsamiq Wireframes](https://img.shields.io/static/v1?label=Balsamiq&message=4.7.4&color=CC0200)
+    - [Balsamiq](https://balsamiq.com/) - Balsamiq was used in order to create the below wireframes during the design process.
+
+[**Desktop Wireframe**](./design/desktop-wireframe.png)
+
+<div align="center">
+    <img src="./design/desktop-wireframe.png">
+</div>
+
+[**Mobile Wireframe**](./design/mobile-wireframe.png)
+
+The mobile version will follow the same principles as the desktop design, however the nav bar will expand once the icon is clicked so that it does not take up too much of the screen.
+
+<div align="center" style="height:500px;">
+    <img src="./design/mobile-wireframe.png">
+</div>
+
+### Database Design
+
+Below is the schema design for the database that will hold and handle data about:
+- Site Users
+- Races (Meetings)
+- Sessions
+- Drivers
+
+This is a relational database handled by [PostgreSQL](https://www.postgresql.org/) which uses primary and foreign keys from each table in order to relate entries to eachother.
+
+<div align="center">
+    <img src="./design/database-diagram.png">
+</div>
