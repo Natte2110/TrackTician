@@ -1,8 +1,9 @@
 from sqlalchemy import create_engine, exists
 from sqlalchemy.orm import sessionmaker
 from tracktician.models import Users, Groups, Drivers, Meetings, Sessions
-import os, json
-from urllib.request import urlopen 
+import os
+import json
+from urllib.request import urlopen
 
 if os.path.exists("env.py"):
     import env  # noqa
@@ -14,9 +15,11 @@ Users.metadata.create_all(engine)
 
 session = Session()
 
+
 def create_default_user(session):
     # Check if the group "Administrator" already exists
-    admin_group_exists = session.query(exists().where(Groups.name == "Administrator")).scalar()
+    admin_group_exists = session.query(
+        exists().where(Groups.name == "Administrator")).scalar()
 
     # If the group doesn't exist, add it
     if not admin_group_exists:
@@ -25,7 +28,8 @@ def create_default_user(session):
         session.commit()
 
     # Check if the user "admin" already exists
-    admin_user_exists = session.query(exists().where(Users.username == "admin")).scalar()
+    admin_user_exists = session.query(
+        exists().where(Users.username == "admin")).scalar()
 
     # If the user doesn't exist, add it
     if not admin_user_exists:
@@ -45,7 +49,8 @@ def add_meetings(session, year):
     data = json.loads(response.read().decode('utf-8'))
 
     for meeting_data in data:
-        existing_meeting = session.query(Meetings).filter_by(meeting_key=meeting_data["meeting_key"]).first()
+        existing_meeting = session.query(Meetings).filter_by(
+            meeting_key=meeting_data["meeting_key"]).first()
         if existing_meeting:
             continue
 
@@ -63,6 +68,7 @@ def add_meetings(session, year):
 
     session.commit()
 
+
 def add_sessions(session):
     all_meetings = session.query(Meetings).all()
 
@@ -74,7 +80,8 @@ def add_sessions(session):
         data = json.loads(response.read().decode('utf-8'))
 
         for session_data in data:
-            existing_session = session.query(Sessions).filter_by(session_key=session_data["session_key"]).first()
+            existing_session = session.query(Sessions).filter_by(
+                session_key=session_data["session_key"]).first()
             if existing_session:
                 continue
 
@@ -102,7 +109,8 @@ def add_drivers(session):
         data = json.loads(response.read().decode('utf-8'))
 
         for driver_data in data:
-            existing_driver = session.query(Drivers).filter_by(session_key=driver_data["session_key"]).first()
+            existing_driver = session.query(Drivers).filter_by(
+                session_key=driver_data["session_key"]).first()
             if existing_driver:
                 continue
 
@@ -118,6 +126,7 @@ def add_drivers(session):
             session.add(driver)
 
     session.commit()
+
 
 create_default_user(session)
 
