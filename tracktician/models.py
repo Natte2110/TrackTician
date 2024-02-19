@@ -47,7 +47,7 @@ class Drivers(db.Model):
     name_acronym = db.Column(db.String(50))
     session_key = db.Column(
         db.Integer,
-        db.ForeignKey("sessions.id", ondelete="CASCADE")
+        db.ForeignKey("sessions.session_key", ondelete="CASCADE")
     )
     team_colour = db.Column(db.String(6))
     team_name = db.Column(db.String(255))
@@ -62,7 +62,7 @@ class Sessions(db.Model):
     date_start = db.Column(db.DateTime)
     meeting_key = db.Column(
         db.Integer,
-        db.ForeignKey("meetings.id", ondelete="CASCADE")
+        db.ForeignKey("meetings.meeting_key", ondelete="CASCADE")
     )
     session_name = db.Column(db.String(255))
     session_type = db.Column(db.String(255))
