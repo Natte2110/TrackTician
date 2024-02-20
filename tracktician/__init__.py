@@ -11,4 +11,4 @@ app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get("DB_URL")
 app.config['UPLOAD_FOLDER'] = os.environ.get("UPLOAD_FOLDER")
 db = SQLAlchemy(app)
 
-# from tracktician import routes  # noqa
+from tracktician import routes  # noqa
