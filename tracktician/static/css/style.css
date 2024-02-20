@@ -12,3 +12,38 @@ body {
   height: 100%;
 }
 /* End Of Global Styling */
+
+/* Navbar Styling */
+
+.bg-navbar {
+  background-color: var(--base-color);
+  background-size: cover;
+}
+
+.navbar-expand {
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+}
+
+.navbar {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem 1rem;
+}
+
+.navbar-expand .navbar-nav {
+  flex-direction: row;
+}
+
+.navbar-nav {
+  display: flex;
+  flex-direction: column;
+  padding-left: 0;
+  margin-bottom: 0;
+  list-style: none;
+  height: 100%;
+}
+/* End Of Navbar Styling */
