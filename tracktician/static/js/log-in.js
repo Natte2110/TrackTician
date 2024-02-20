@@ -5,7 +5,7 @@
  */
 $(document).ready(function () {
     $('#login-form').submit(function (event) {
-        event.preventDefault(); // Prevent the form from submitting normally
+        event.preventDefault();
 
         $.ajax({
             url: '/log-in',
@@ -17,12 +17,10 @@ $(document).ready(function () {
             }),
             success: function (data) {
                 if (data.success) {
-                    // Login successful, redirect or do something else
-                    console.log('Login successful');
                     location.replace('/');
                 } else {
-                    // Login failed, display error message
-                    console.error('Login failed:', data.message);
+                    $('#login-error').text(data.message)
+                    $('#login-error').show()
                 }
             },
             error: function (xhr, status, error) {
