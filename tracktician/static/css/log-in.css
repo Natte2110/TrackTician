@@ -17,7 +17,7 @@ body {
       rgba(92, 77, 66, 0.8) 0%,
       rgba(92, 77, 66, 0.8) 100%
     ),
-    url("https://wallpapers.com/images/hd/login-formula-1-desktop-tnmnne2sdk6c6awl.jpg");
+    url(../media/login-background.webp);
   background-position: center;
   background-repeat: no-repeat;
   background-attachment: scroll;
