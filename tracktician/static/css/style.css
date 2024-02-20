@@ -2,6 +2,7 @@
   --base-color: #171717;
   --text-color: #ffffff;
   --primary-color: #116d6e;
+  --secondary-color: #607274;
 }
 
 /* Global Styling */
@@ -10,6 +11,7 @@ body {
   padding: 0;
   margin: 0;
   height: 100%;
+  font-family: Montserrat;
 }
 /* End Of Global Styling */
 
