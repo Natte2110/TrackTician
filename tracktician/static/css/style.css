@@ -1,5 +1,14 @@
 :root {
-    --base-color: #171717;
-    --text-color: #FFFFFF;
-    --primary-color: #116D6E;
+  --base-color: #171717;
+  --text-color: #ffffff;
+  --primary-color: #116d6e;
 }
+
+/* Global Styling */
+html,
+body {
+  padding: 0;
+  margin: 0;
+  height: 100%;
+}
+/* End Of Global Styling */
