@@ -729,6 +729,16 @@ body {
 .nav-item.dropdown.no-arrow a {
   height: 100%;
 }
+
+.sidebar-brand-icon img {
+    height: 100%;
+}
+
+@media (max-width: 768px){
+.sidebar-brand-icon {
+    height: 4.375rem;
+}
+}
 /* End Of Sidebar/Topbar Styling */
 
 /* Misc Styling */
