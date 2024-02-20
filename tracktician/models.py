@@ -6,7 +6,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 class Users(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(16), unique=True, nullable=False)
-    _password_hash = db.Column(db.String(64), nullable=False)
+    password_hash = db.Column(db.String(255), nullable=False)
     group = db.Column(
         db.Integer,
         db.ForeignKey("groups.id", ondelete="CASCADE")
@@ -25,10 +25,10 @@ class Users(db.Model, UserMixin):
 
     @password.setter
     def password(self, password):
-        self._password_hash = generate_password_hash(password)
+        self.password_hash = generate_password_hash(password)
 
     def verify_password(self, password):
-        return check_password_hash(self._password_hash, password)
+        return check_password_hash(self.password_hash, password)
 
 
 class Groups(db.Model):
