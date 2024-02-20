@@ -731,13 +731,13 @@ body {
 }
 
 .sidebar-brand-icon img {
-    height: 100%;
+  height: 100%;
 }
 
-@media (max-width: 768px){
-.sidebar-brand-icon {
+@media (max-width: 768px) {
+  .sidebar-brand-icon {
     height: 4.375rem;
-}
+  }
 }
 /* End Of Sidebar/Topbar Styling */
 
@@ -772,4 +772,10 @@ body {
 
 #wrapper #content-wrapper #content {
   flex: 1 0 auto;
+}
+
+@media (max-width: 768px) {
+  .fa-bars {
+    color: #858796;
+  }
 }
