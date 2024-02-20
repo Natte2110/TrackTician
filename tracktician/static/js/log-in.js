@@ -1,28 +1,33 @@
-document.getElementById('login-form').addEventListener('submit', function (event) {
-    event.preventDefault(); // Prevent the form from submitting normally
+/**
+ * @file Manages user logins from the flask backend responses.
+ * @author Nathan Parsley <natteparsley@gmail.com>
+ * @copyright Nathan Parsley 2024
+ */
+$(document).ready(function () {
+    $('#login-form').submit(function (event) {
+        event.preventDefault(); // Prevent the form from submitting normally
 
-    fetch('/log-in', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            username: document.getElementById('username').value,
-            password: document.getElementById('password').value
-        })
-    })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                // Login successful, redirect or do something else
-                console.log('Login successful');
-                location.replace('/')
-            } else {
-                // Login failed, display error message
-                console.error('Login failed:', data.message);
+        $.ajax({
+            url: '/log-in',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify({
+                username: $('#username').val(),
+                password: $('#password').val()
+            }),
+            success: function (data) {
+                if (data.success) {
+                    // Login successful, redirect or do something else
+                    console.log('Login successful');
+                    location.replace('/');
+                } else {
+                    // Login failed, display error message
+                    console.error('Login failed:', data.message);
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error('Error:', error);
             }
-        })
-        .catch(error => {
-            console.error('Error:', error);
         });
+    });
 });
