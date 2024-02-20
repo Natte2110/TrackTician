@@ -23,14 +23,13 @@ def load_user(id):
 
 
 @app.route("/")
-def home():
+def dashboard():
     """Provides routing for the website's home page
 
     Returns:
         The index.html page with the title of "Home"
     """
-    return render_template("base.html", title="Dashboard")
-    # return "Hello!"
+    return render_template("dashboard.html", title="Dashboard")
 
 
 @app.route("/log-in", methods=["GET", "POST"])
