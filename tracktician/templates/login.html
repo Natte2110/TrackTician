@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TrackTician | {{ title }}</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;300;400;700&display=swap" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/log-in.css') }}" rel="stylesheet">
+</head>
+
+<body>
+    <div class="login-background">
+        <div class="login-container">
+            <div class="login-header">
+                <h2>Log In</h2>
+                <img src="{{ url_for('static', filename='media/logo-white.png') }}" alt="">
+            </div>
+            <form class="login-form">
+                <div class="login-form-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" name="username" required="">
+                </div>
+                <div class="login-form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" required="">
+                </div>
+                <button class="login-form-submit-btn" type="submit">Submit</button>
+            </form>
+        </div>
+    </div>
+</body>
+
+</html>
