@@ -15,7 +15,7 @@ $(document).ready(function () {
             $("#hide-password").addClass("d-none");
             $("#show-password").removeClass("d-none");
         }
-    }
+    };
 
     $("#show-password").click(function () {
         passwordVisibility();
@@ -34,7 +34,7 @@ $(document).ready(function () {
             $("#hide-confirm-password").addClass("d-none");
             $("#show-confirm-password").removeClass("d-none");
         }
-    }
+    };
     
     $("#show-confirm-password").click(function () {
         confirmPasswordVisibility();
@@ -58,8 +58,8 @@ $(document).ready(function () {
                 if (data.success) {
                     location.replace('/');
                 } else {
-                    $('#login-error').text(data.message)
-                    $('#login-error').show()
+                    $('#login-error').text(data.message);
+                    $('#login-error').show();
                 }
             },
             error: function (xhr, status, error) {
