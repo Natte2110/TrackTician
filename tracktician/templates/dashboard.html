@@ -6,10 +6,11 @@
 
 {% block content %}
 <div class="dashboard-wrapper">
-    <div class="info-container">
+    <div class="info-container left">
         <div class="map-card">
             <div class="card-topper">
-                <button class="card-button">
+                <h2>Race Map</h2>
+                <button class="card-button toggle">
                     <i class="fa-solid fa-chevron-up"></i>
                 </button>
                 <button class="card-button">
@@ -20,7 +21,8 @@
         </div>
         <div class="car-card">
             <div class="card-topper">
-                <button class="card-button">
+                <h2>Car Tracking</h2>
+                <button class="card-button toggle">
                     <i class="fa-solid fa-chevron-up"></i>
                 </button>
                 <button class="card-button">
@@ -30,12 +32,11 @@
         </div>
 
     </div>
-    <div class="info-container">
+    <div class="handler"></div>
+    <div class="info-container right">
         <div class="race-card">
             <div class="card-topper">
-                <button class="card-button">
-                    <i class="fa-solid fa-chevron-right"></i>
-                </button>
+                <h2>Race Information</h2>
                 <button class="card-button">
                     <i class="fa-solid fa-ellipsis-vertical"></i>
                 </button>
@@ -49,4 +50,5 @@
 {% block scripts %}
 <script src="https://js.arcgis.com/4.28/"></script>
 <script src="{{ url_for('static', filename='js/race-map.js') }}"></script>
+<script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
 {% endblock %}
