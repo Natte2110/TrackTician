@@ -1,10 +1,52 @@
 {% extends "base.html" %}
 {% block styles %}
+<link rel="stylesheet" href="https://js.arcgis.com/4.28/esri/themes/dark/main.css" />
 <link href="{{ url_for('static', filename='css/dashboard.css') }}" rel="stylesheet">
 {% endblock %}
 
 {% block content %}
 <div class="dashboard-wrapper">
-    
+    <div class="info-container">
+        <div class="map-card">
+            <div class="card-topper">
+                <button class="card-button">
+                    <i class="fa-solid fa-chevron-up"></i>
+                </button>
+                <button class="card-button">
+                    <i class="fa-solid fa-ellipsis-vertical"></i>
+                </button>
+            </div>
+            <div id="map-race"></div>
+        </div>
+        <div class="car-card">
+            <div class="card-topper">
+                <button class="card-button">
+                    <i class="fa-solid fa-chevron-up"></i>
+                </button>
+                <button class="card-button">
+                    <i class="fa-solid fa-ellipsis-vertical"></i>
+                </button>
+            </div>
+        </div>
+
+    </div>
+    <div class="info-container">
+        <div class="race-card">
+            <div class="card-topper">
+                <button class="card-button">
+                    <i class="fa-solid fa-chevron-right"></i>
+                </button>
+                <button class="card-button">
+                    <i class="fa-solid fa-ellipsis-vertical"></i>
+                </button>
+            </div>
+        </div>
+    </div>
 </div>
+
+{% endblock %}
+
+{% block scripts %}
+<script src="https://js.arcgis.com/4.28/"></script>
+<script src="{{ url_for('static', filename='js/race-map.js') }}"></script>
 {% endblock %}
