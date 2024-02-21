@@ -3,7 +3,6 @@ $(document).ready(function () {
         let card = $(this).parent().parent();
 
         if (card.height() === 32) {
-            console.log("up");
             card.css('height', '50%');
             $(this).children().removeClass('fa-chevron-down');
             $(this).children().addClass('fa-chevron-up');
@@ -30,4 +29,34 @@ $(document).ready(function () {
         }
 
     });
+});
+
+let handler = document.querySelector('.handler');
+let wrapper = handler.closest('.dashboard-wrapper');
+let boxA = wrapper.querySelector('.info-container');
+let isHandlerDragging = false;
+
+document.addEventListener('mousedown', function (e) {
+    if (e.target === handler) {
+        isHandlerDragging = true;
+    }
+});
+
+document.addEventListener('mousemove', function (e) {
+    if (!isHandlerDragging) {
+        return false;
+    }
+
+    let containerOffsetLeft = wrapper.offsetLeft;
+
+    let pointerRelativeXpos = e.clientX - containerOffsetLeft;
+
+    let boxAminWidth = 200;
+
+    boxA.style.width = (Math.max(boxAminWidth, pointerRelativeXpos - 8)) + 'px';
+    boxA.style.flexGrow = 0;
+});
+
+document.addEventListener('mouseup', function (e) {
+    isHandlerDragging = false;
 });
