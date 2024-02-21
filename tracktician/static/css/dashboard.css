@@ -1,16 +1,43 @@
 .dashboard-wrapper {
   height: calc(100vh - 4.375rem);
+  max-height: calc(100vh - 4.375rem);
   display: flex;
 }
 
 .info-container {
   height: 100%;
-  flex: 0.5;
+  flex: 1 1 auto;
+}
+
+.handler {
+  width: 16px;
+  padding: 0;
+  cursor: ew-resize;
+  flex: 0 0 auto;
+  background-color: var(--base-color);
+}
+
+.handler::before {
+  content: '';
+  display: block;
+  width: 2px;
+  height: 100%;
+  background: var(--text-color);
+  margin: 0 auto;
+  opacity: 0.5;
 }
 
 .card-topper {
   height: 2rem;
   background-color: #1e1e1e;
+}
+
+.card-topper h2 {
+  color: var(--text-color);
+  float: left;
+  font-size: 1rem;
+  font-weight: 700;
+  margin: 0.4rem;
 }
 
 .map-card {
