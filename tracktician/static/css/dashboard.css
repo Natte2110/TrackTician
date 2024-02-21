@@ -1,3 +1,73 @@
 .dashboard-wrapper {
+  height: calc(100vh - 4.375rem);
+  display: flex;
+}
+
+.info-container {
+  height: 100%;
+  flex: 0.5;
+}
+
+.card-topper {
+  height: 2rem;
+  background-color: #1e1e1e;
+}
+
+.map-card {
+  height: 50%;
+  width: 100%;
+  --s: 10px; /* control the size */
+  --c: #0000, #282828 0.5deg 119.5deg, #0000 120deg;
+  --g1: conic-gradient(from 60deg at 56.25% calc(425% / 6), var(--c));
+  --g2: conic-gradient(from 180deg at 43.75% calc(425% / 6), var(--c));
+  --g3: conic-gradient(from -60deg at 50% calc(175% / 12), var(--c));
+  background: var(--g1), var(--g1) var(--s) calc(1.73 * var(--s)), var(--g2),
+    var(--g2) var(--s) calc(1.73 * var(--s)), var(--g3) var(--s) 0,
+    var(--g3) 0 calc(1.73 * var(--s)) #1e1e1e;
+  background-size: calc(2 * var(--s)) calc(3.46 * var(--s));
+}
+
+#map-race {
+  padding: 0;
+  margin: 0;
+  height: calc(100% - 2rem);
+  width: 100%;
+}
+
+.card-button {
+  background: none;
+  border: none;
+  padding: 15px 15px;
+  border-radius: 10px;
+  cursor: pointer;
+  height: 100%;
+  color: var(--text-color);
+  display: flex;
+  align-items: center;
+  float: right;
+}
+
+.card-button:hover {
+  background: rgba(170, 170, 170, 0.062);
+  transition: 0.5s;
+  
+}
+
+.car-card {
+  height: 50%;
+  width: 100%;
+  background-color: red;
+}
+
+.race-card {
+  height: 100%;
+  width: 100%;
+  background-color: green;
+}
+
+@media (max-width: 768px) {
+  .dashboard-wrapper {
     height: calc(100vh - 4.375rem);
+    display: block;
+  }
 }
