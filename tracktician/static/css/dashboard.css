@@ -90,11 +90,86 @@
   height: 100%;
   width: 100%;
   background-color: green;
+  --s: 10px; /* control the size */
+  --c: #0000, #282828 0.5deg 119.5deg, #0000 120deg;
+  --g1: conic-gradient(from 60deg at 56.25% calc(425% / 6), var(--c));
+  --g2: conic-gradient(from 180deg at 43.75% calc(425% / 6), var(--c));
+  --g3: conic-gradient(from -60deg at 50% calc(175% / 12), var(--c));
+  background: var(--g1), var(--g1) var(--s) calc(1.73 * var(--s)), var(--g2),
+    var(--g2) var(--s) calc(1.73 * var(--s)), var(--g3) var(--s) 0,
+    var(--g3) 0 calc(1.73 * var(--s)) #1e1e1e;
+  background-size: calc(2 * var(--s)) calc(3.46 * var(--s));
 }
+
 
 @media (max-width: 768px) {
   .dashboard-wrapper {
     height: calc(100vh - 4.375rem);
     display: block;
   }
+}
+
+.race-info {
+  padding: 1rem;
+}
+
+.info-selection {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.info-label {
+  position: relative;
+  margin: 0 10px;
+  cursor: pointer;
+}
+
+.info-button {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #ab341d 0%, #e13809 100%);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+}
+
+.info-button::before,
+.info-button::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+}
+
+.info-button::before {
+  background-color: rgba(255, 255, 255, 0.15);
+  transform: scale(0.9);
+  opacity: 0;
+}
+
+.info-button::after {
+  background-color: rgba(0, 0, 0, 0.1);
+  transform: scale(1.1);
+  opacity: 0;
+}
+
+.info-label input {
+  display: none;
+}
+
+.info-label input:checked + .info-button {
+  background: linear-gradient(135deg, #a3ff22 0%, #66ff43 100%);
+  box-shadow: 0 10px 20px rgba(34, 255, 49, 0.4);
+}
+
+.info-label input:checked + .info-button::before {
+  transform: scale(1.2);
+  opacity: 1;
 }
