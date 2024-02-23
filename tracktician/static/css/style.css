@@ -801,6 +801,8 @@ body {
   background-color: #f8f9fc;
   width: 100%;
   overflow-x: hidden;
+  max-height: 100vh;
+  overflow: scroll;
 }
 .flex-column {
   flex-direction: column !important;
