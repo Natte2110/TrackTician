@@ -99,6 +99,8 @@
     var(--g2) var(--s) calc(1.73 * var(--s)), var(--g3) var(--s) 0,
     var(--g3) 0 calc(1.73 * var(--s)) #1e1e1e;
   background-size: calc(2 * var(--s)) calc(3.46 * var(--s));
+  overflow: scroll;
+  overflow-x: hidden;
 }
 
 
@@ -172,4 +174,98 @@
 .info-label input:checked + .info-button::before {
   transform: scale(1.2);
   opacity: 1;
+}
+
+.race-info .driver-div {
+  width: 100%;
+  height: auto;
+  margin-top: 1rem;
+  border-radius: 10px;
+  color: var(--text-color);
+  
+}
+
+.driver-div .driver {
+  height: 100px;
+  padding: 0.5rem;
+  background: var(--base-color);
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: left;
+  backdrop-filter: blur(10px);
+  transition: 0.5s ease-in-out;
+  border-left: #3671C6 solid 0.5rem;
+  margin-top: 1rem;
+}
+
+.driver-headshot {
+  border: #dddddd 1px solid;
+  width: calc(100px - 1rem);
+  height: 100%;
+  border-radius: 10px;
+  aspect-ratio: 1;
+}
+
+.driver-headshot img {
+  width: 100%;
+  height: 100%;
+}
+
+.driver-name {
+  font-size: 1rem;
+}
+
+.driver-info {
+  margin-left: 1rem;
+  width: calc(100% - 2rem);
+}
+
+.driver-info .card-button {
+  position: relative;
+}
+
+.follow-button {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+}
+
+.follow-button input{
+  opacity: 0;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  z-index: 2;
+  cursor: pointer;
+}
+
+.checker {
+  width: 100%;
+  height: 100%;
+  background: black;
+  border-radius: 50px;
+  transition: all 0.3s;
+  --spread: 10px;
+  border: green solid 1px;
+ }
+
+ .follow-button  input:hover  ~ .checker{
+  box-shadow: #66ff43 1px;
+ }
+
+.follow-button  input:checked ~ .checker {
+  background: green;
+ }
+
+.follow-button i{
+  width: 100%;
+  margin-top: 0.35rem;
 }
