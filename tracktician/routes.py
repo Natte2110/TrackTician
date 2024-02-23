@@ -45,13 +45,36 @@ def dashboard():
                     Drivers.driver_number == driver_number,
                     Drivers.headshot_url.isnot(None) 
                 ).first()
-                print('noheadshot')
                 if fallback_driver:
                     driver_dict['headshot_url'] = fallback_driver.headshot_url
+            if driver_dict['team_colour'] is None:
+                fallback_driver = Drivers.query.filter(
+                    Drivers.driver_number == driver_number,
+                    Drivers.team_colour.isnot(None) 
+                ).first()
+                if fallback_driver:
+                    driver_dict['team_colour'] = fallback_driver.team_colour
             unique_drivers.append(driver_dict)
     
     return render_template("dashboard.html", title="Dashboard", session=session_dict, drivers=unique_drivers)
 
+
+@app.route('/get-session', methods=['GET'])
+def get_session():
+    session_id = request.args.get('sessionID')
+
+    session = Sessions.query.filter_by(session_key=session_id).first()
+
+    session_dict = session.as_dict() if session else {}
+    
+    driver = Drivers.query.filter_by(session_key=session_dict['session_key']).first()
+
+    if driver:
+        session_dict['driver'] = driver.as_dict()
+    else:
+        session_dict['driver'] = None
+
+    return jsonify(session_dict)
 
 
 @app.route('/simulate-race', methods=['POST'])
