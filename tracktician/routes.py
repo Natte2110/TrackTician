@@ -32,6 +32,21 @@ def dashboard():
     return render_template("dashboard.html", title="Dashboard")
 
 
+@app.route("/races")
+def races():
+    """Provides routing for the website's Race History page
+
+    Returns:
+        The races.html page with the title of "Race History"
+    """
+    sessions = Sessions.query.all()
+    for session in sessions:
+        meeting = Meetings.query.filter_by(meeting_key=session.meeting_key).first()
+        session.circuit_short_name = meeting.circuit_short_name
+        session.location = meeting.location
+    return render_template("races.html", title="Race History", sessions=sessions)
+
+
 @app.route("/log-in", methods=["GET", "POST"])
 def log_in():
     """
