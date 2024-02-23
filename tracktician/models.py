@@ -29,6 +29,9 @@ class Users(db.Model, UserMixin):
 
     def verify_password(self, password):
         return check_password_hash(self.password_hash, password)
+    
+    def as_dict(self):
+        return {c.name: getattr(self, c.name) for c in self.__table__.columns}
 
 
 class Groups(db.Model):
@@ -37,6 +40,9 @@ class Groups(db.Model):
 
     def __repr__(self):
         return "Group: {}".format(self.name)
+    
+    def as_dict(self):
+        return {c.name: getattr(self, c.name) for c in self.__table__.columns}
 
 
 class Drivers(db.Model):
@@ -54,6 +60,9 @@ class Drivers(db.Model):
 
     def __repr__(self):
         return "Driver: {0} (#{1})".format(self.full_name, self.driver_number)
+    
+    def as_dict(self):
+        return {c.name: getattr(self, c.name) for c in self.__table__.columns}
 
 
 class Sessions(db.Model):
@@ -72,6 +81,8 @@ class Sessions(db.Model):
             self.session_name, self.date_start, self.date_end
         )
 
+    def as_dict(self):
+        return {c.name: getattr(self, c.name) for c in self.__table__.columns}
 
 class Meetings(db.Model):
     meeting_key = db.Column(db.Integer, primary_key=True)
@@ -87,3 +98,6 @@ class Meetings(db.Model):
         return "Meeting: {0} - {1} ({2})".format(
             self.location, self.meeting_official_name, self.date_start
         )
+    
+    def as_dict(self):
+        return {c.name: getattr(self, c.name) for c in self.__table__.columns}
