@@ -22,14 +22,38 @@ def load_user(id):
     return Users.query.get(int(id))
 
 
-@app.route("/")
+@app.route("/", methods=["GET", "POST"])
 def dashboard():
     """Provides routing for the website's home page
 
     Returns:
-        The index.html page with the title of "Home"
+        The dashboard.html page with the title of "Home"
     """
-    return render_template("dashboard.html", title="Dashboard")
+    session_id = request.args.get('sessionID')
+
+    session = Sessions.query.filter_by(session_key=session_id).first()
+    session_dict = session.as_dict() if session else {}
+
+    drivers = Drivers.query.filter_by(session_key=session_id).all()
+    drivers_dict = [driver.as_dict() for driver in drivers]
+
+    unique_data = []
+    seen_driver_numbers = set()
+    for driver in drivers_dict:
+        driver_number = driver['driver_number']
+        if driver_number not in seen_driver_numbers:
+            seen_driver_numbers.add(driver_number)
+            unique_data.append(driver)
+    print(unique_data)
+    return render_template("dashboard.html", title="Dashboard", session=session_dict, drivers=unique_data)
+
+
+@app.route('/simulate-race', methods=['POST'])
+def simulate_race():
+    data = request.json
+    session_id = data.get('sessionID')
+
+    return jsonify({"success": True, "sessionID": session_id})
 
 
 @app.route("/races")
@@ -84,11 +108,11 @@ def logout():
     return redirect(url_for('dashboard'))
 
 
-@app.errorhandler(404)
-def page_not_found(error):
-    return render_template('404.html'), 404
+# @app.errorhandler(404)
+# def page_not_found(error):
+#     return render_template('404.html'), 404
 
 
-@app.errorhandler(500)
-def internal_server_error(error):
-    return render_template('500.html'), 500
+# @app.errorhandler(500)
+# def internal_server_error(error):
+#     return render_template('500.html'), 500
