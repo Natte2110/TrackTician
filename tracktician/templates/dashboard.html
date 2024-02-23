@@ -29,7 +29,6 @@
                     <i class="fa-solid fa-ellipsis-vertical"></i>
                 </button>
             </div>
-            <h2>No Car Selected</h2>
         </div>
 
     </div>
@@ -49,7 +48,7 @@
                         <div class="info-button">
                             <i class="fa-solid fa-car"></i>
                             <span class="edge"></span>
-                            
+
                         </div>
                     </label>
                     <label class="info-label" for="order">
@@ -57,7 +56,7 @@
                         <div class="info-button">
                             <i class="fa-solid fa-list-ol"></i>
                             <span class="edge"></span>
-                            
+
                         </div>
                     </label>
                     <label class="info-label" for="mickey">
@@ -67,6 +66,25 @@
                             <span class="edge"></span>
                         </div>
                     </label>
+                </div>
+                <div class="driver-div">
+                    {% for driver in drivers %}
+                    <div class="driver" style="border-left: #{{driver.team_colour}} solid 0.5rem;">
+                        <div class="driver-headshot">
+                            <img src="{{driver.headshot_url}}" alt="">
+                        </div>
+                        <div class="driver-info">
+                            <h2 class="driver-name">{{driver.driver_number}} - {{driver.full_name}}</h2>
+                            <p>{{driver.team_name}}</p>
+                            <div class="follow-button">
+                                <input type="checkbox" name="" id="">
+                                <div class="checker">
+                                    <i class="fa-solid fa-binoculars"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
                 </div>
             </div>
         </div>
