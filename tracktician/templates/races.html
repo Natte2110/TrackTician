@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block styles %}
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.css">
+<link href="{{ url_for('static', filename='css/races.css') }}" rel="stylesheet">
+
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid background pt-4">
+
+    <!-- ChemWaR User Table -->
+    <div class="card races-card mb-4">
+        <div class="card-header py-3">
+            <h5 class="m-0 font-weight-bold users-table-title">Previous Races</h5>
+            <a href="#" id="add-user" class="d-none d-inline-block btn btn-sm btn-success shadow-sm">
+                <i class="fas fa-user-plus fa-sm text-white-50" aria-hidden="true"></i> Add User</a>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive sessions-table">
+                <table class="table" id="session-table" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Start Date</th>
+                            <th>Location</th>
+                            <th>Track Name</th>
+                            <th>Session Name</th>
+                            <th>Session Type</th>
+                            <th>Simulate Race</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for session in sessions %}
+                        <tr>
+                            <td>{{session.date_start}}</td>
+                            <td>{{ session.location }}</td>
+                            <td>{{session.circuit_short_name}}</td>
+                            <td>{{session.session_name}}</td>
+                            <td>{{session.session_type}}</td>
+                            <td>
+                                <button class="simulate-race-button" id="{{ session.session_key }}">simulate</button>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.js"></script>
+<script src="{{ url_for('static',filename='js/race-history.js') }}"></script>
+{% endblock %}
