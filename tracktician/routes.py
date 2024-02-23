@@ -22,30 +22,36 @@ def load_user(id):
     return Users.query.get(int(id))
 
 
+from sqlalchemy import or_
+
 @app.route("/", methods=["GET", "POST"])
 def dashboard():
-    """Provides routing for the website's home page
-
-    Returns:
-        The dashboard.html page with the title of "Home"
-    """
     session_id = request.args.get('sessionID')
 
     session = Sessions.query.filter_by(session_key=session_id).first()
     session_dict = session.as_dict() if session else {}
 
-    drivers = Drivers.query.filter_by(session_key=session_id).all()
-    drivers_dict = [driver.as_dict() for driver in drivers]
-
-    unique_data = []
+    all_drivers = Drivers.query.filter_by(session_key=session_id).all()
+    
+    unique_drivers = []
     seen_driver_numbers = set()
-    for driver in drivers_dict:
-        driver_number = driver['driver_number']
+    for driver in all_drivers:
+        driver_dict = driver.as_dict()
+        driver_number = driver_dict['driver_number']
         if driver_number not in seen_driver_numbers:
             seen_driver_numbers.add(driver_number)
-            unique_data.append(driver)
-    print(unique_data)
-    return render_template("dashboard.html", title="Dashboard", session=session_dict, drivers=unique_data)
+            if driver_dict['headshot_url'] is None:
+                fallback_driver = Drivers.query.filter(
+                    Drivers.driver_number == driver_number,
+                    Drivers.headshot_url.isnot(None) 
+                ).first()
+                print('noheadshot')
+                if fallback_driver:
+                    driver_dict['headshot_url'] = fallback_driver.headshot_url
+            unique_drivers.append(driver_dict)
+    
+    return render_template("dashboard.html", title="Dashboard", session=session_dict, drivers=unique_drivers)
+
 
 
 @app.route('/simulate-race', methods=['POST'])
