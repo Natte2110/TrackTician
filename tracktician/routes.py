@@ -8,29 +8,7 @@ login_manager = LoginManager(app)
 login_manager.login_view = 'log_in'
 
 
-@login_manager.user_loader
-def load_user(id):
-    """Loads the current user and returns it as a query object.
-
-    Arguments:
-        id -- The id of the user, this will be used to search the
-        USERS database table for the corresponding entry.
-
-    Returns:
-        A User object returned from a query on the Users table.
-    """
-    return Users.query.get(int(id))
-
-
-from sqlalchemy import or_
-
-@app.route("/", methods=["GET", "POST"])
-def dashboard():
-    session_id = request.args.get('sessionID')
-
-    session = Sessions.query.filter_by(session_key=session_id).first()
-    session_dict = session.as_dict() if session else {}
-
+def replace_missing_vals(session_id):
     all_drivers = Drivers.query.filter_by(session_key=session_id).all()
     
     unique_drivers = []
@@ -54,9 +32,41 @@ def dashboard():
                 ).first()
                 if fallback_driver:
                     driver_dict['team_colour'] = fallback_driver.team_colour
+            if driver_dict['team_name'] is None:
+                fallback_driver = Drivers.query.filter(
+                    Drivers.driver_number == driver_number,
+                    Drivers.team_name.isnot(None) 
+                ).first()
+                if fallback_driver:
+                    driver_dict['team_name'] = fallback_driver.team_name
             unique_drivers.append(driver_dict)
+    return unique_drivers
+
+
+@login_manager.user_loader
+def load_user(id):
+    """Loads the current user and returns it as a query object.
+
+    Arguments:
+        id -- The id of the user, this will be used to search the
+        USERS database table for the corresponding entry.
+
+    Returns:
+        A User object returned from a query on the Users table.
+    """
+    return Users.query.get(int(id))
+
+
+@app.route("/", methods=["GET", "POST"])
+def dashboard():
+    session_id = request.args.get('sessionID')
+
+    session = Sessions.query.filter_by(session_key=session_id).first()
+    session_dict = session.as_dict() if session else {}
+
+    drivers = replace_missing_vals(session_id)
     
-    return render_template("dashboard.html", title="Dashboard", session=session_dict, drivers=unique_drivers)
+    return render_template("dashboard.html", title="Dashboard", session=session_dict, drivers=drivers)
 
 
 @app.route('/get-session', methods=['GET'])
@@ -67,13 +77,9 @@ def get_session():
 
     session_dict = session.as_dict() if session else {}
     
-    driver = Drivers.query.filter_by(session_key=session_dict['session_key']).first()
-
-    if driver:
-        session_dict['driver'] = driver.as_dict()
-    else:
-        session_dict['driver'] = None
-
+    drivers = replace_missing_vals(session_id)
+    # session_dict['drivers'] = [driver.as_dict() for driver in drivers]
+    session_dict['drivers'] = drivers
     return jsonify(session_dict)
 
 
