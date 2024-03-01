@@ -30,6 +30,9 @@
 .card-topper {
   height: 2rem;
   background-color: #1e1e1e;
+  position: sticky;
+  top: 0;
+  z-index: 2;
 }
 
 .card-topper h2 {
@@ -83,7 +86,6 @@
 .car-card {
   height: 50%;
   width: 100%;
-  background-color: red;
 }
 
 .race-card {
@@ -185,7 +187,7 @@
   
 }
 
-.driver-div .driver {
+.driver-div .driver, .driver {
   height: 100px;
   padding: 0.5rem;
   background: var(--base-color);
@@ -268,4 +270,14 @@
 .follow-button i{
   width: 100%;
   margin-top: 0.35rem;
+}
+
+#charts {
+  max-height: calc(100% - 2rem);
+  height: calc(100% - 2rem);
+  width: 100%;
+  background-color: var(--base-color);
+  overflow-x: hidden;
+  overflow-y: scroll;
+  color: var(--text-color);
 }
