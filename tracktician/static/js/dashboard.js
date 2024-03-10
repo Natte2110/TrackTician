@@ -1,21 +1,19 @@
 $(document).ready(function () {
   $('.toggle').click(function () {
     let card = $(this).parent().parent();
+    let remToPixel = parseFloat(getComputedStyle(document.documentElement).fontSize);
+    let remainingHeight = $('.dashboard-wrapper').height() - (2 * remToPixel);
 
-    if (card.height() === 32) {
+    if (Math.abs(parseInt(card.css('height')) - 32) < 2) {
       card.css('height', '50%');
-      $(this).children().removeClass('fa-chevron-down');
-      $(this).children().addClass('fa-chevron-up');
+      $(this).children().removeClass('fa-chevron-down').addClass('fa-chevron-up');
     } else {
       card.css('height', '2rem');
-      $(this).children().removeClass('fa-chevron-up');
-      $(this).children().addClass('fa-chevron-down');
+      $(this).children().removeClass('fa-chevron-up').addClass('fa-chevron-down');
     }
 
     const changeSibling = (siblingCard) => {
-      let remToPixel = parseFloat(getComputedStyle(document.documentElement).fontSize);
-      let remainingHeight = $('.dashboard-wrapper').height() - (2 * remToPixel);
-      if (siblingCard.height() === remainingHeight) {
+      if (Math.abs(parseInt(siblingCard.css('height')) - remainingHeight) < 2) {
         siblingCard.css('height', '50%');
       } else {
         siblingCard.css('height', remainingHeight + 'px');
@@ -27,8 +25,9 @@ $(document).ready(function () {
     } else if (card.hasClass('car-card')) {
       changeSibling(card.siblings('.map-card'));
     }
-
   });
+
+
 
   const pedalChartDiv = document.getElementById('pedal-chart').getContext('2d');
   const pedalChart = new Chart(pedalChartDiv, {
@@ -212,14 +211,14 @@ $(document).ready(function () {
               .then(data => {
                 if (data.length !== 0) {
                   fetch(`https://api.openf1.org/v1/stints?session_key=${response.session_key}&driver_number=${driverNumber}&lap_start=1`)
-                  .then(response => {
-                    if (!response.ok) {
-                      throw new Error('Network response was not ok');
-                    }
-                    return response.json();
-                  }).then(result => {
-                    $('#tyre-tracking').text(result[0].compound)
-                  })
+                    .then(response => {
+                      if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                      }
+                      return response.json();
+                    }).then(result => {
+                      $('#tyre-tracking').text(result[0].compound)
+                    })
                   //
                   // console.log(data[0])
                   $('#gear-tracking').text(data[0].n_gear)
