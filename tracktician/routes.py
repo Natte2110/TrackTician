@@ -91,6 +91,7 @@ def simulate_race():
 
 
 @app.route("/races")
+@login_required
 def races():
     """Provides routing for the website's Race History page
 
