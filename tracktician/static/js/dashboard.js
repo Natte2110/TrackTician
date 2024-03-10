@@ -211,6 +211,18 @@ $(document).ready(function () {
               })
               .then(data => {
                 if (data.length !== 0) {
+                  fetch(`https://api.openf1.org/v1/stints?session_key=${response.session_key}&driver_number=${driverNumber}&lap_start=1`)
+                  .then(response => {
+                    if (!response.ok) {
+                      throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                  }).then(result => {
+                    $('#tyre-tracking').text(result[0].compound)
+                  })
+                  //
+                  // console.log(data[0])
+                  $('#gear-tracking').text(data[0].n_gear)
                   const throttle = data[0].throttle;
                   const brake = data[0].brake;
                   const speed = data[0].speed;
