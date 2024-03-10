@@ -3,11 +3,9 @@
   margin: 0;
   padding: 1rem;
   height: calc(100vh - 4.375rem);
-  background: linear-gradient(
-      to bottom,
+  background: linear-gradient(to bottom,
       rgba(92, 77, 66, 0.8) 0%,
-      rgba(92, 77, 66, 0.8) 100%
-    ),
+      rgba(92, 77, 66, 0.8) 100%),
     url(../media/login-background.webp);
   background-position: center;
   background-repeat: no-repeat;
@@ -19,13 +17,10 @@
 
 .races-card {
   background: linear-gradient(#212121, #212121) padding-box,
-    linear-gradient(
-        145deg,
-        transparent 35%,
-        var(--secondary-color),
-        var(--primary-color)
-      )
-      border-box;
+    linear-gradient(145deg,
+      transparent 35%,
+      var(--secondary-color),
+      var(--primary-color)) border-box;
   border: 3px solid transparent;
   color: var(--text-color);
   box-sizing: border-box;
@@ -61,6 +56,7 @@ button {
   -o-transition: .3s all ease;
   transition: .3s all ease;
 }
+
 /* #session-table tr.odd td {
   background-color: var(--base-color);
 } */
@@ -68,6 +64,7 @@ button {
 #session-table {
   min-width: 900px;
 }
+
 #session-table thead tr,
 #session-table thead th {
   padding-bottom: 30px;
@@ -78,6 +75,7 @@ button {
   text-transform: uppercase;
   letter-spacing: .2rem;
 }
+
 #session-table tbody th,
 #session-table tbody td {
   text-align: center;
@@ -91,15 +89,18 @@ button {
   -o-transition: .3s all ease;
   transition: .3s all ease;
 }
+
 #session-table tbody th small,
 #session-table tbody td small {
   color: rgba(255, 255, 255, 0.3);
   font-weight: 300;
 }
+
 #session-table tbody th a,
 #session-table tbody td a {
   color: rgba(255, 255, 255, 0.3);
 }
+
 #session-table tbody th .more,
 #session-table tbody td .more {
   color: rgba(255, 255, 255, 0.3);
@@ -108,35 +109,91 @@ button {
   text-transform: uppercase;
   letter-spacing: .2rem;
 }
+
 #session-table tbody tr {
   -webkit-transition: .3s all ease;
   -o-transition: .3s all ease;
   transition: .3s all ease;
 }
+
 #session-table tbody tr:hover td,
 #session-table tbody tr:focus td {
   color: #000000;
   font-weight: 500;
   background-color: #a9a9a9;
 }
+
 #session-table tbody tr:hover td a,
 #session-table tbody tr:focus td a {
   color: #fdd114;
 }
+
 #session-table tbody tr:hover td .more,
 #session-table tbody tr:focus td .more {
   color: #fdd114;
 }
+
 #session-table .td-box-wrap {
   padding: 0;
 }
+
 #session-table .box {
   background: #fff;
   border-radius: 4px;
   margin-top: 15px;
   margin-bottom: 15px;
 }
+
 #session-table .box td,
 #session-table .box th {
   border: none !important;
 }
+
+.simulate-race-button {
+  outline: none;
+  cursor: pointer;
+  border: none;
+  padding: 0.9rem 2rem;
+  margin: 0;
+  font-family: inherit;
+  font-size: inherit;
+  position: relative;
+  display: inline-block;
+  letter-spacing: 0.05rem;
+  font-weight: 700;
+  font-size: 1rem;
+  border-radius: 500px;
+  overflow: hidden;
+  background: linear-gradient(90deg, rgba(255,21,0,1) 0%, rgba(255,55,0,1) 35%, rgba(78,255,0,1) 100%);;
+  color: ghostwhite;
+  line-height: 1rem;
+}
+
+.simulate-race-button span {
+  position: relative;
+  z-index: 10;
+  transition: color 0.4s;
+}
+
+.simulate-race-button::before,
+.simulate-race-button::after {
+ position: absolute;
+ top: 0;
+ left: 0;
+ width: 100%;
+ height: 100%;
+ z-index: 0;
+}
+
+.simulate-race-button::before {
+  content: "";
+  background: #000;
+  width: 120%;
+  left: -10%;
+  transform: skew(30deg);
+  transition: transform 0.4s cubic-bezier(0.3, 1, 0.8, 1);
+ }
+
+ .simulate-race-button:hover::before {
+  transform: translate3d(100%, 0, 0);
+ }
