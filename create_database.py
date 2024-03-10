@@ -109,10 +109,12 @@ def add_drivers(session):
         data = json.loads(response.read().decode('utf-8'))
 
         for driver_data in data:
-            existing_driver = session.query(Drivers).filter_by(
-                session_key=driver_data["session_key"]).first()
-            if existing_driver:
-                continue
+            # Check if team_colour is present and is a valid string
+            if "team_colour" not in driver_data or not isinstance(driver_data["team_colour"], str):
+                # Handle the case where team_colour is missing or not a string
+                team_colour = "FFFFFF"  # Or any other default value you prefer
+            else:
+                team_colour = driver_data["team_colour"]
 
             driver = Drivers(
                 driver_number=driver_data["driver_number"],
@@ -120,7 +122,7 @@ def add_drivers(session):
                 headshot_url=driver_data["headshot_url"],
                 name_acronym=driver_data["name_acronym"],
                 session_key=driver_data["session_key"],
-                team_colour=driver_data["team_colour"],
+                team_colour=team_colour,
                 team_name=driver_data["team_name"]
             )
             session.add(driver)
@@ -130,7 +132,7 @@ def add_drivers(session):
 
 create_default_user(session)
 
-add_meetings(session, year=2023)
+add_meetings(session, year=2024)
 
 add_sessions(session)
 
