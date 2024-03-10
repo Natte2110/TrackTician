@@ -1,170 +1,293 @@
-require(["esri/Map", "esri/views/MapView", "esri/Graphic", "esri/layers/support/ImageElement", "esri/layers/support/ExtentAndRotationGeoreference", "esri/geometry/Extent", "esri/layers/MediaLayer", "esri/geometry/Point", "esri/geometry/Polyline", "esri/symbols/SimpleLineSymbol", "esri/geometry/geometryEngine"], (Map, MapView, Graphic, ImageElement, ExtentAndRotationGeoreference, Extent, MediaLayer, Point, Polyline, SimpleLineSymbol) => {
+require([
+  "esri/Map",
+  "esri/views/MapView",
+  "esri/Graphic",
+  "esri/geometry/Point",
+  "esri/geometry/Polyline",
+  "esri/symbols/SimpleLineSymbol",
+  "esri/layers/GraphicsLayer",
+], (
+  Map,
+  MapView,
+  Graphic,
+  Point,
+  Polyline,
+  SimpleLineSymbol,
+  GraphicsLayer,
+) => {
+  const trackLayer = new GraphicsLayer()
+  const createTrack = (start, finish, sessionID, driverNumber) => {
+    return fetch(
+      `https://api.openf1.org/v1/location?session_key=${sessionID}&driver_number=${driverNumber}&date>${start}&date<${finish}`
+    )
+      .then(response => response.json())
+      .then(jsonContent => {
+        let paths = [];
+        jsonContent.forEach(element => {
+          paths.push([element.x, element.y]);
+        });
 
+        let polyline = new Polyline({
+          paths: paths,
+          spatialReference: spatialReference
+        });
 
-    const createTrack = () => {
-        return fetch('https://api.openf1.org/v1/location?session_key=9161&driver_number=81&date>2023-09-16T13:03:35.200&date<2023-09-16T13:05:35.800')
-            .then(response => response.json())
-            .then(jsonContent => {
-                let paths = [];
+        let lineSymbol = new SimpleLineSymbol({
+          color: [255, 255, 255],
+          width: 6
+        });
 
-                jsonContent.forEach(element => {
-                    paths.push([element.x, element.y]);
-                });
+        let polylineGraphic = new Graphic({
+          geometry: polyline,
+          symbol: lineSymbol
+        });
 
-                let polyline = new Polyline({
-                    paths: paths,
-                    spatialReference: spatialReference
-                });
+        trackLayer.graphics.add(polylineGraphic);
+        map.layers.add(trackLayer)
+        // Get the extent of the polyline graphic's geometry
+        let polygonExtent = polylineGraphic.geometry.extent;
+        trackExtent = polygonExtent;
+        return polygonExtent;
+      });
+  };
 
-                let lineSymbol = new SimpleLineSymbol({
-                    color: [255, 255, 255],
-                    width: 6
-                });
+  async function getSessionData() {
+    try {
+      let queryString = window.location.search;
+      let params = new URLSearchParams(queryString);
 
-                let polylineGraphic = new Graphic({
-                    geometry: polyline,
-                    symbol: lineSymbol
-                });
+      let sessionID = params.get('sessionID');
+      if (sessionID) {
+        console.log(sessionID);
 
-                view.graphics.add(polylineGraphic);
+        let response = await $.ajax({
+          url: '/get-session',
+          type: 'GET',
+          data: {
+            sessionID: sessionID
+          }
+        });
 
-                // Get the extent of the polyline graphic's geometry
-                let polygonExtent = polylineGraphic.geometry.extent;
-                return polygonExtent;
-            });
-    };
+        console.log('Session data:', response);
 
-    const spatialReference = {
-        wkid: 3857
-    };
+        return response;
+      } else {
+        return false;
+      }
 
-    const map = new Map({
-        basemap: "dark-gray-vector"
-    });
+    } catch (error) {
+      console.error('Error:', error);
+      throw error;
+    }
+  }
 
-    const view = new MapView({
-        center: [0, 0],
-        container: "map-race",
-        map: map,
-        constraints: {
-            rotationEnabled: false
-        },
-        spatialReference: spatialReference
-    });
+  const spatialReference = {
+    wkid: 3857
+  };
 
-    view.when(() => {
-        createTrack().then(extent => {
-            view.goTo({
-                target: extent,
-            }, {
+  const map = new Map({
+    basemap: "dark-gray-vector"
+  });
+
+  const view = new MapView({
+    center: [0, 0],
+    container: "map-race",
+    map: map,
+    constraints: {
+      rotationEnabled: false
+    },
+    spatialReference: spatialReference
+  });
+  let trackExtent;
+  let intervalMiliseconds = 500;
+  view.when(() => {
+    getSessionData()
+      .then(function (response) {
+        if (response) {
+          response.date_start = new Date(response.date_start);
+          let endTime = new Date(response.date_start.getTime() + 30 * 60000);
+
+          let isoStartTime = response.date_start.toISOString().slice(0, -5);
+          let isoEndTime = endTime.toISOString().slice(0, -5);
+
+          createTrack(isoStartTime, isoEndTime, response.session_key, response.drivers[0].driver_number).then(extent => {
+            view.goTo(
+              {
+                target: extent
+              },
+              {
                 duration: 0
+              }
+            );
+            const mapRace = $("#map-race")[0];
+            const observer = new ResizeObserver(entries => {
+              entries.forEach(entry => {
+                setTimeout(function () {
+                  view.goTo(
+                    {
+                      target: trackExtent
+                    },
+                    {
+                      duration: 0
+                    }
+                  );
+                }, 500);
+              });
             });
-        });
-        map.basemap.baseLayers.getItemAt(0).opacity = 0;
-    });
 
+            let drivers = response.drivers;
+            // Iterate over each driver in the drivers array
+            drivers.forEach(driver => {
+              // Create a point geometry at coordinates (0, 0)
+              const point = new Point({
+                x: 0,
+                y: 0,
+                spatialReference: spatialReference
+              });
 
-    view.when(disableZooming);
+              const pointGraphic = new Graphic({
+                geometry: point,
+                attributes: {
+                  driverNumber: driver.driver_number,
+                  teamColor: driver.team_colour
+                },
+                symbol: {
+                  type: "simple-marker",
+                  color: `#${driver.team_colour}`,
+                  size: 10
+                }
+              });
+              // Add the point graphic to the map
+              view.graphics.add(pointGraphic);
+            });
+            console.log(view.graphics)
+            let isoStartTime = new Date(response.date_start);
+            let isoCurrentTime = new Date(isoStartTime);
+            let isoHalfSecondAhead = new Date(isoStartTime.getTime() + (intervalMiliseconds / 2));
+            const updateDriverLocations = () => {
+              isoCurrentTime.setMilliseconds(isoCurrentTime.getMilliseconds() + intervalMiliseconds);
 
+              isoHalfSecondAhead.setTime(isoCurrentTime.getTime() + (intervalMiliseconds / 2)); // Half the increment
 
-
-/**
- * Disables all zoom gestures on the given view instance.
- *
- * @param {esri/views/MapView} view - The MapView instance on which to
- *                                  disable zooming gestures.
- */
-    function disableZooming(view) {
-        // Removes the zoom action on the popup
-        view.popup.actions = [];
-
-        // stops propagation of default behavior when an event fires
-        function stopEvtPropagation(event) {
-            event.stopPropagation();
-        }
-
-        // exlude the zoom widget from the default UI
-        view.ui.components = ["attribution"];
-
-        // disable mouse wheel scroll zooming on the view
-        view.on("mouse-wheel", stopEvtPropagation);
-
-        // disable zooming via double-click on the view
-        view.on("double-click", stopEvtPropagation);
-
-        // disable zooming out via double-click + Control on the view
-        view.on("double-click", ["Control"], stopEvtPropagation);
-
-        // disables pinch-zoom and panning on the view
-        view.on("drag", stopEvtPropagation);
-
-        // disable the view's zoom box to prevent the Shift + drag
-        // and Shift + Control + drag zoom gestures.
-        view.on("drag", ["Shift"], stopEvtPropagation);
-        view.on("drag", ["Shift", "Control"], stopEvtPropagation);
-
-        // prevents zooming with the + and - keys
-        view.on("key-down", (event) => {
-            const prohibitedKeys = ["+", "-", "Shift", "_", "=", "ArrowUp", "ArrowDown", "ArrowRight", "ArrowLeft"];
-            const keyPressed = event.key;
-            if (prohibitedKeys.indexOf(keyPressed) !== -1) {
-                event.stopPropagation();
+              const isoCurrentTimeString = isoCurrentTime.toISOString();
+              const isoHalfSecondAheadString = isoHalfSecondAhead.toISOString();
+              drivers.forEach(driver => {
+                const pointGraphic = view.graphics.find(graphic => graphic.attributes && graphic.attributes.driverNumber === driver.driver_number);
+                fetch(`https://api.openf1.org/v1/location?session_key=${response.session_key}&driver_number=${driver.driver_number}&date>${isoCurrentTimeString}&date<${isoHalfSecondAheadString}`)
+                  .then(response => {
+                    if (!response.ok) {
+                      throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                  })
+                  .then(data => {
+                    if (data.length !== 0) {
+                      const x = data[0].x;
+                      const y = data[0].y;
+                      pointGraphic.geometry = new Point({
+                        x: x,
+                        y: y,
+                        spatialReference: spatialReference
+                      });
+                    }
+                  })
+              });
             }
-        });
 
-        return view;
+            setInterval(updateDriverLocations, intervalMiliseconds);
+            observer.observe(mapRace);
+          });
+        }
+        map.basemap.baseLayers.getItemAt(0).opacity = 0;
+
+      })
+      .catch(function (error) {
+        console.error('Error in .catch():', error);
+      });
+  });
+
+  view.when(disableZooming);
+
+  $('.follow-driver').click(function () {
+    driverNumber = $(this).attr("id")
+    console.log(driverNumber)
+    view.graphics.items.forEach(function (graphic) {
+      console.log(graphic)
+      if (graphic.attributes.driverNumber == driverNumber) {
+        graphic.symbol.outline.width = 2
+        graphic.symbol.size = 20;
+      } else {
+        graphic.symbol.outline.width = 0.75
+        graphic.symbol.size = 10;
+      }
+    });
+  });
+
+  /**
+     * Disables all zoom gestures on the given view instance.
+     *
+     * @param {esri/views/MapView} view - The MapView instance on which to
+     *                                  disable zooming gestures.
+     */
+  function disableZooming(view) {
+    // Removes the zoom action on the popup
+    view.popup.actions = [];
+
+    // stops propagation of default behavior when an event fires
+    function stopEvtPropagation(event) {
+      event.stopPropagation();
     }
 
+    // exlude the zoom widget from the default UI
+    view.ui.components = ["attribution"];
 
+    // disable mouse wheel scroll zooming on the view
+    view.on("mouse-wheel", stopEvtPropagation);
 
+    // disable zooming via double-click on the view
+    view.on("double-click", stopEvtPropagation);
 
-    // const extent = new Extent({
-    //     xmin: view.center.x - xVal,
-    //     ymin: view.center.y - yVal,
-    //     xmax: view.center.x + xVal,
-    //     ymax: view.center.y + yVal,
-    //     spatialReference: spatialReference
-    // });
+    // disable zooming out via double-click + Control on the view
+    view.on("double-click", ["Control"], stopEvtPropagation);
 
-    const extent = new Extent({
-        xmin: -15400,
-        ymin: -5000,
-        xmax: 2850,
-        ymax: 4700,
-        spatialReference: spatialReference
+    // disables pinch-zoom and panning on the view
+    view.on("drag", stopEvtPropagation);
+
+    // disable the view's zoom box to prevent the Shift + drag
+    // and Shift + Control + drag zoom gestures.
+    view.on("drag", ["Shift"], stopEvtPropagation);
+    view.on("drag", ["Shift", "Control"], stopEvtPropagation);
+
+    // prevents zooming with the + and - keys
+    view.on("key-down", event => {
+      const prohibitedKeys = [
+        "+",
+        "-",
+        "Shift",
+        "_",
+        "=",
+        "ArrowUp",
+        "ArrowDown",
+        "ArrowRight",
+        "ArrowLeft"
+      ];
+      const keyPressed = event.key;
+      if (prohibitedKeys.indexOf(keyPressed) !== -1) {
+        event.stopPropagation();
+      }
     });
 
-    /*************************
-     * Create a point graphic
-     *************************/
+    return view;
+  }
 
-    // First create a point geometry (this is the location of the Titanic)
-
-
-    // Create a symbol for drawing the point
-    const markerSymbol = {
-        type: "simple-marker", // autocasts as new SimpleMarkerSymbol()
-        color: [226, 119, 40],
-        outline: {
-            // autocasts as new SimpleLineSymbol()
-            color: [255, 255, 255],
-            width: 2
-        }
-    };
-
-    const imageElement = new ImageElement({
-        image: "https://www.sportmonks.com/wp-content/uploads/2022/07/Marina-Bay-Street-Circuit.png",
-        georeference: new ExtentAndRotationGeoreference({
-            extent: extent
-        })
-    });
-
-    const layer = new MediaLayer({
-        source: imageElement,
-        opacity: 1,
-    });
-    let maxX = Number.NEGATIVE_INFINITY;
-    let maxY = Number.NEGATIVE_INFINITY;
-    let minX = Number.POSITIVE_INFINITY;
-    let minY = Number.POSITIVE_INFINITY;
+  // Create a symbol for drawing the point
+  const markerSymbol = {
+    type: "simple-marker", // autocasts as new SimpleMarkerSymbol()
+    color: [226, 119, 40],
+    outline: {
+      // autocasts as new SimpleLineSymbol()
+      color: [255, 255, 255],
+      width: 2
+    }
+  };
 });
