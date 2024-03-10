@@ -281,3 +281,15 @@
   overflow-y: scroll;
   color: var(--text-color);
 }
+
+#charts > .driver {
+  width: 50%;
+  float: left;
+}
+
+#charts > .car-info {
+  width: 50%;
+  float: right;
+  height: 100px;
+  margin-top: 1rem;
+}
