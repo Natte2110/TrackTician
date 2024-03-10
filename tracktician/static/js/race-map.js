@@ -58,7 +58,6 @@ require([
 
       let sessionID = params.get('sessionID');
       if (sessionID) {
-        console.log(sessionID);
 
         let response = await $.ajax({
           url: '/get-session',
@@ -67,8 +66,6 @@ require([
             sessionID: sessionID
           }
         });
-
-        console.log('Session data:', response);
 
         return response;
       } else {
@@ -160,7 +157,6 @@ require([
               // Add the point graphic to the map
               view.graphics.add(pointGraphic);
             });
-            console.log(view.graphics)
             let isoStartTime = new Date(response.date_start);
             let isoCurrentTime = new Date(isoStartTime);
             let isoHalfSecondAhead = new Date(isoStartTime.getTime() + (intervalMiliseconds / 2));
@@ -210,9 +206,7 @@ require([
 
   $('.follow-driver').click(function () {
     driverNumber = $(this).attr("id")
-    console.log(driverNumber)
     view.graphics.items.forEach(function (graphic) {
-      console.log(graphic)
       if (graphic.attributes.driverNumber == driverNumber) {
         graphic.symbol.outline.width = 2
         graphic.symbol.size = 20;
