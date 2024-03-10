@@ -1,4 +1,4 @@
-from flask import render_template, request, redirect, flash, url_for, jsonify
+from flask import render_template, request, redirect, url_for, jsonify
 from tracktician import app, db
 from tracktician.models import Users, Groups, Drivers, Meetings, Sessions
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
@@ -10,7 +10,6 @@ login_manager.login_view = 'log_in'
 
 def replace_missing_vals(session_id):
     all_drivers = Drivers.query.filter_by(session_key=session_id).all()
-    
     unique_drivers = []
     seen_driver_numbers = set()
     for driver in all_drivers:
@@ -143,9 +142,9 @@ def logout():
     return redirect(url_for('dashboard'))
 
 
-# @app.errorhandler(404)
-# def page_not_found(error):
-#     return render_template('404.html'), 404
+@app.errorhandler(404)
+def page_not_found(error):
+    return render_template('404.html'), 404
 
 
 # @app.errorhandler(500)
